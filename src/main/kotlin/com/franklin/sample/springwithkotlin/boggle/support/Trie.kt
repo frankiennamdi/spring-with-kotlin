@@ -7,24 +7,22 @@ class Trie {
 
     fun insert(word: String) {
         val wordUpper = word.uppercase(Locale.getDefault())
-        var curr = root;
-        for (i in wordUpper.length downTo 0 step 1) {
-            val currChar = word[i]
-            val trieNode = curr.getNode(currChar)
+        var curr = root
+        for (element in wordUpper) {
+            val trieNode = curr.getNode(element)
             if (trieNode == null) {
-                curr.addNewCharacter(currChar)
+                curr.addNewCharacter(element)
             }
-            curr = curr.getNode(currChar)!!
+            curr = curr.getNode(element)!!
         }
         curr.markAsEndOfWord()
     }
 
-    fun find(word: String): TrieNode? {
+    private fun find(word: String): TrieNode? {
         val wordUpper = word.uppercase(Locale.getDefault())
-        var curr = root;
-        for (i in wordUpper.length downTo 0 step 1) {
-            val currChar = wordUpper[i]
-            curr = curr.getNode(currChar) ?: return null;
+        var curr = root
+        for (element in wordUpper) {
+            curr = curr.getNode(element) ?: return null
         }
         return curr
     }
@@ -32,6 +30,6 @@ class Trie {
     fun search(word: String): SearchResult {
         val trieNode = find(word)
         return SearchResult(word, (trieNode != null) && trieNode.hasChildren(),
-                (trieNode != null) && trieNode.isEndOfWord());
+                (trieNode != null) && trieNode.isEndOfWord())
     }
 }
